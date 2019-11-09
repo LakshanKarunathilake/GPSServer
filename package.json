@@ -1,0 +1,26 @@
+{
+  "name": "testteltonika",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon GPS_Servers.js",
+    "startTest": "node appTest.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "binutils64": "latest",
+    "express": "^4.17.1",
+    "mysql2": "^1.7.0",
+    "sequelize": "^5.19.4",
+    "socket.io": "^2.3.0",
+    "teltonika-parser": "0.0.15",
+    "ws": "^7.1.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  }
+}
