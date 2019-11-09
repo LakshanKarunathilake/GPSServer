@@ -39,36 +39,40 @@ function createTelTronikaServer() {
         const response = writer1.ByteBuffer;
         connection.write(response);
 
-        const gps_data = {
-          imei: imei,
-          latitude:
-            avl && avl.records && avl.records.length > 0
-              ? avl.records[0].gps.latitude
-              : 0,
-          longitude:
-            avl && avl.records && avl.records.length > 0
-              ? avl.records[0].gps.longitude
-              : 0
-        };
-        // if (avl.records && avl.records.length > 0) {
-        //   avl.records.forEach(element => {
-        //     // Sending GPS DATA to  SOCKETS
-        //     GPS_Client.sendMessageToClients(imei, element);
-        //   });
-        // }
-        GPSData.create(gps_data)
-          .then(() => {
-            const writer = new binutils.BinaryWriter();
-            writer.WriteInt32(avl.number_of_data);
-            const response = writer.ByteBuffer;
-            connection.write(response);
-          })
-          .catch(err => {
-            console.log("Error");
-          });
+        if (avl && avl.records && avl.records.length > 0) {
+          const gps_data = {
+            imei: imei,
+            latitude: avl.records[0].gps.latitude,
+            longitude: avl.records[0].gps.longitude
+          };
+
+          writeToDatabase();
+        }
       }
     });
   });
+}
+
+function writeToDatabase() {
+  GPSData.create(gps_data)
+    .then(() => {
+      const writer = new binutils.BinaryWriter();
+      writer.WriteInt32(avl.number_of_data);
+      const response = writer.ByteBuffer;
+      connection.write(response);
+    })
+    .catch(err => {
+      console.log("Error");
+    });
+}
+
+function sentToClients() {
+  if (avl.records && avl.records.length > 0) {
+    avl.records.forEach(element => {
+      // Sending GPS DATA to  SOCKETS
+      GPS_Client.sendMessageToClients(imei, element);
+    });
+  }
 }
 
 module.exports = {
