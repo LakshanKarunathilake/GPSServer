@@ -37,15 +37,15 @@ function createTelTronikaServer() {
             latitude: avl.records[0].gps.latitude,
             longitude: avl.records[0].gps.longitude
           };
-
-          writeToDatabase();
+          writeToDatabase(gps_data, avl);
+          sendToClients(avl, imei);
         }
       }
     });
   });
 }
 
-function writeToDatabase() {
+function writeToDatabase(gps_data, avl) {
   GPSData.create(gps_data)
     .then(() => {
       const writer = new binutils.BinaryWriter();
@@ -54,17 +54,15 @@ function writeToDatabase() {
       connection.write(response);
     })
     .catch(err => {
-      console.log("Error");
+      console.log("Error", err);
     });
 }
 
-function sentToClients() {
-  if (avl.records && avl.records.length > 0) {
-    avl.records.forEach(element => {
-      // Sending GPS DATA to  SOCKETS
-      GPS_Client.sendMessageToClients(imei, element);
-    });
-  }
+function sendToClients(avl, imei) {
+  avl.records.forEach(element => {
+    // Sending GPS DATA to  SOCKETS
+    GPS_Client.sendMessageToClients(imei, element);
+  });
 }
 
 module.exports = {
