@@ -15,15 +15,7 @@ const listenToTCPServer = () => {
 // Creating a Teltronic TCP Server
 function createTelTronikaServer() {
   return net.createServer(connection => {
-    let imei = 0;
-    console.log(
-      "CONNECTED: " + connection.remoteAddress + ":" + connection.remotePort
-    );
-
-    console.log("client connected");
-    connection.on("end", () => {
-      console.log("client disconnected");
-    });
+    let imei = "EMPTY EMEI";
 
     connection.on("data", data => {
       const parser = new Parser(data);
