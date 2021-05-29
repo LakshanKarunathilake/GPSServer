@@ -18,7 +18,7 @@
     "sequelize": "^5.19.4",
     "socket.io": "^2.3.0",
     "teltonika-parser": "0.0.15",
-    "ws": "^7.1.2"
+    "ws": "^7.4.6"
   },
   "devDependencies": {
     "nodemon": "^1.19.4"
